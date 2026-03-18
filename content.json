@@ -1,0 +1,27 @@
+{
+    "formatVersion": "0",
+    "lastChange": "1773867002",
+    "defaultTimeout": 15,
+    "slides": [
+        {
+            "urls": [
+                "https://media1.tenor.com/m/hoXoG1Wm_FcAAAAC/hi-dog.gif",
+                "https://github.com/author/static-images/raw/refs/heads/main/svg/github.svg"
+            ],
+            "timeout": 5
+        },
+        {
+            "urls": [
+                "https://media.tenor.com/92MplgQwb80AAAPo/cat-meme-wave-emoji.mp4"
+            ],
+            "timeout": 0
+        },
+        {
+            "urls": [
+                "https://media.tenor.com/k5MKOvZiGvgAAAPo/cabby-cabby-cat.mp4",
+                "https://storage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg"
+            ],
+            "timeout": 5
+        }
+    ]
+}
