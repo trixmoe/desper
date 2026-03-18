@@ -43,6 +43,7 @@ function mapToElement(content) {
         case content.endsWith(".jpg"):
         case content.endsWith(".png"):
         case content.endsWith(".svg"):
+        case content.endsWith(".gif"):
             const img = document.createElement("img");
             img.src = content;
             img.className = "content";
