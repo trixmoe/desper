@@ -11,7 +11,7 @@ function createSlide(slideJson) {
 
     for (url of slideJson.urls) {
         console.log("Content:", url)
-        elem = mapToElement(url);
+        elem = mapURLToElement(url);
         newContainer.appendChild(elem);
     }
 
@@ -28,7 +28,7 @@ var defaultTimeout = 30;
 var sliderTimer;
 var fetchTimer;
 
-function mapToElement(content) {
+function mapURLToElement(content) {
     switch(true) {
         case content.endsWith(".mp4"):
         case content.endsWith(".webm"):
