@@ -19,9 +19,10 @@
         {
             "urls": [
                 "https://media.tenor.com/k5MKOvZiGvgAAAPo/cabby-cabby-cat.mp4",
+                "https://media.tenor.com/92MplgQwb80AAAPo/cat-meme-wave-emoji.mp4",
                 "https://storage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg"
             ],
-            "timeout": 5
+            "timeout": 0
         }
     ]
 }

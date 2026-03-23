@@ -1,6 +1,8 @@
 function Slide(div, timeout) {
     this.div = div
     this.timeout = timeout
+    this.nmbVideos = undefined;
+    this.nmbVideosEnded = 0;
 }
 
 const containerId = "display-container";
@@ -78,12 +80,16 @@ function nextSlide() {
     }
 
     const newSlide = slides[newSlideId];
+    newSlide.nmbVideos = 0;
+    newSlide.nmbVideosEnded = 0;
     const newSlideContainer = newSlide.div;
     var timeout = newSlide.timeout;
     var switchSlideOnVideoEnd;
     for (elem of newSlideContainer.children) {
         if(elem.tagName === "VIDEO") {
+            newSlide.nmbVideos = newSlide.nmbVideos+1;
             switchSlideOnVideoEnd = true;
+            // If looping is enabled, onended will not work.
             elem.onended = bind_leading_args(videoEnded, elem, newSlideId);
             elem.loop = false;
             elem.play();
@@ -116,17 +122,25 @@ function bind_leading_args(fn, ...bound_args) {
 // ------------------------------------
 
 function videoEnded(vid, endedOnSlide, event) {
+    var currentSlide = slides[currentlyDisplayedSlide];
     if(endedOnSlide != currentlyDisplayedSlide) {
         console.log("ERROR: We already skipped this slide.");
         return;
     } else {
-        vid.onended = null;
+        currentSlide.nmbVideosEnded = currentSlide.nmbVideosEnded+1;
     }
 
     console.log("Video ended, on slide", endedOnSlide);
-    console.log("Debug event:", event);
 
-    nextSlide();
+    if(currentSlide.nmbVideosEnded == currentSlide.nmbVideos) {
+        console.log("All videos ended. Switching from slide " + currentlyDisplayedSlide + ".");
+        nextSlide();
+    } else {
+        // Keep playing the video, as it's not the last one.
+        vid.loop = true;
+        vid.play();
+        vid.onended = null;
+    }
 }
 
 function resetData() {
