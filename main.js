@@ -102,12 +102,12 @@ function nextSlide() {
     var noTimeoutSpecified = timeout == 0 || timeout == undefined;
     if(noTimeoutSpecified) {
         if(switchSlideOnVideoEnd) {
-            console.log("No timeout, relying on video ending.");
+            console.log("[Slide " + newSlideId + "] No timeout, relying on video ending.");
             return;
         } else timeout = defaultTimeout;
     }
 
-    console.log("Next slide in ", timeout);
+    console.log("[Slide " + newSlideId + "] Next slide in ", timeout);
     sliderTimer = setTimeout(nextSlide, timeout * 1000);
 }
 
@@ -124,16 +124,16 @@ function bind_leading_args(fn, ...bound_args) {
 function videoEnded(vid, endedOnSlide, event) {
     var currentSlide = slides[currentlyDisplayedSlide];
     if(endedOnSlide != currentlyDisplayedSlide) {
-        console.log("ERROR: We already skipped this slide.");
+        console.log("[Slide " + currentlyDisplayedSlide + "] ERROR: We already skipped slide " + endedOnSlide);
         return;
     } else {
         currentSlide.nmbVideosEnded = currentSlide.nmbVideosEnded+1;
     }
 
-    console.log("Video ended, on slide", endedOnSlide);
+    console.log("[Slide " + currentlyDisplayedSlide + "] Video ended, on slide", endedOnSlide);
 
     if(currentSlide.nmbVideosEnded == currentSlide.nmbVideos) {
-        console.log("All videos ended. Switching from slide " + currentlyDisplayedSlide + ".");
+        console.log("[Slide " + currentlyDisplayedSlide + "] All videos ended. Switching from slide " + currentlyDisplayedSlide + ".");
         nextSlide();
     } else {
         // Keep playing the video, as it's not the last one.
