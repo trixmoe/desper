@@ -22,6 +22,7 @@ function createSlide(slideJson) {
     return new Slide(newContainer, timeout);
 }
 
+var firstLoadedChange = undefined;
 var lastChange;
 var slides;
 var currentlyDisplayedSlide;
@@ -161,6 +162,16 @@ function fetchAndUpdate() {
             if(lastChange != json.lastChange) {
                 resetData();
                 lastChange = json.lastChange;
+
+                if(firstLoadedChange == undefined)
+                    firstLoadedChange = json.lastChange;
+
+                console.log("last ", lastChange, " first", firstLoadedChange, " force page reload ", json.forcePageReload)
+                if(lastChange != firstLoadedChange && json.forcePageReload == true) {
+                    console.log("last ", lastChange, " first", firstLoadedChange)
+                    location.reload();
+                }
+
                 try {
                     if(json.defaultTimeout != undefined)
                         defaultTimeout = json.defaultTimeout
