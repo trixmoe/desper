@@ -3,11 +3,11 @@ function Slide(div, timeout) {
     this.timeout = timeout
 }
 
-const id = "display-container";
+const containerId = "display-container";
 
 function createSlide(slideJson) {
     const newContainer = document.createElement("div");
-    newContainer.id = id;
+    newContainer.id = containerId;
 
     for (url of slideJson.urls) {
         console.log("Content:", url)
@@ -69,7 +69,7 @@ function nextSlide() {
     var newSlideId = currentlyDisplayedSlide+1;
     if(newSlideId >= slides.length) newSlideId = 0;
 
-    const oldContainer = document.getElementById(id);
+    const oldContainer = document.getElementById(containerId);
     for (elem of oldContainer.children) {
         if(elem.tagName === "VIDEO") {
             elem.pause();
