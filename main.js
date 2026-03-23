@@ -15,8 +15,7 @@ function createSlide(slideJson) {
         newContainer.appendChild(elem);
     }
 
-    var timeout = 0
-    try {timeout = slideJson.timeout} catch {}
+    var timeout = slideJson.timeout;
 
     return new Slide(newContainer, timeout);
 }
@@ -37,7 +36,7 @@ function mapURLToElement(content) {
             vid.className = "content";
             vid.autoplay = false;
             vid.preload = "auto";
-            vid.loop = true;
+            vid.loop = false;
             vid.controls = false;
             return vid;
         case content.endsWith(".jpg"):
@@ -72,26 +71,62 @@ function nextSlide() {
     const oldContainer = document.getElementById(containerId);
     for (elem of oldContainer.children) {
         if(elem.tagName === "VIDEO") {
+            elem.onended = null;
             elem.pause();
             elem.currentTime = 0;
         }
     }
 
     const newSlide = slides[newSlideId];
-    const newContainer = newSlide.div;
-    for (elem of newContainer.children) {
+    const newSlideContainer = newSlide.div;
+    var timeout = newSlide.timeout;
+    var switchSlideOnVideoEnd;
+    for (elem of newSlideContainer.children) {
         if(elem.tagName === "VIDEO") {
+            switchSlideOnVideoEnd = true;
+            elem.onended = bind_leading_args(videoEnded, elem, newSlideId);
+            elem.loop = false;
             elem.play();
         }
     }
 
-    oldContainer.replaceWith(newContainer);
+    oldContainer.replaceWith(newSlideContainer);
     currentlyDisplayedSlide = newSlideId;
 
-    var timeout = newSlide.timeout;
-    if(timeout == 0 || timeout == undefined) timeout = defaultTimeout;
+    var noTimeoutSpecified = timeout == 0 || timeout == undefined;
+    if(noTimeoutSpecified) {
+        if(switchSlideOnVideoEnd) {
+            console.log("No timeout, relying on video ending.");
+            return;
+        } else timeout = defaultTimeout;
+    }
+
     console.log("Next slide in ", timeout);
     sliderTimer = setTimeout(nextSlide, timeout * 1000);
+}
+
+// Fear of race condition, switching two slides at once.
+// Unsure if this is reasonable, but easy fix/protection.
+// https://stackoverflow.com/a/27699684
+function bind_leading_args(fn, ...bound_args) {
+    return function(...args) {
+        return fn(...bound_args, ...args);
+    };
+}
+// ------------------------------------
+
+function videoEnded(vid, endedOnSlide, event) {
+    if(endedOnSlide != currentlyDisplayedSlide) {
+        console.log("ERROR: We already skipped this slide.");
+        return;
+    } else {
+        vid.onended = null;
+    }
+
+    console.log("Video ended, on slide", endedOnSlide);
+    console.log("Debug event:", event);
+
+    nextSlide();
 }
 
 function resetData() {
