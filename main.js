@@ -22,6 +22,8 @@ function createSlide(slideJson) {
     return new Slide(newContainer, timeout);
 }
 
+const contentFile = (window.location.hash.slice(1) || "content") + ".json";
+
 var firstLoadedChange = undefined;
 var lastChange;
 var slides;
@@ -154,7 +156,7 @@ function resetData() {
 }
 
 function fetchAndUpdate() {
-    fetch("content.json", {cache: 'no-store'})
+    fetch(contentFile, {cache: 'no-store'})
         .then(out => out.json())
         .then(json => {
             console.log("Parsed elements: ", json);

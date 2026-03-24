@@ -5,13 +5,9 @@
         <meta charset="UTF-8">
         <script>
             document.currentScript.remove();
-            fetch("content.json", {cache: 'no-store'})
-                .then(r => r.json())
-                .then(json => {
-                    const s = document.createElement("script");
-                    s.src = "main.js?v=" + crypto.randomUUID();
-                    document.head.appendChild(s);
-                });
+            const s = document.createElement("script");
+            s.src = "main.js?v=" + crypto.randomUUID();
+            document.head.appendChild(s);
         </script>
         <style>
             html, body {
