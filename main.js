@@ -91,16 +91,25 @@ function nextSlide() {
     for (elem of newSlideContainer.children) {
         if(elem.tagName === "VIDEO") {
             newSlide.nmbVideos = newSlide.nmbVideos+1;
-            switchSlideOnVideoEnd = true;
-            // If looping is enabled, onended will not work.
-            elem.onended = bind_leading_args(videoEnded, elem, newSlideId);
-            elem.loop = false;
+            if(timeout != -1) {
+                switchSlideOnVideoEnd = true;
+                // If looping is enabled, onended will not work.
+                elem.onended = bind_leading_args(videoEnded, elem, newSlideId);
+                elem.loop = false;
+            } else {
+                elem.loop = true;
+            }
             elem.play();
         }
     }
 
     oldContainer.replaceWith(newSlideContainer);
     currentlyDisplayedSlide = newSlideId;
+
+    if(timeout == -1) {
+        console.log("[Slide " + newSlideId + "] Timeout disabled, slide will not advance.");
+        return;
+    }
 
     var noTimeoutSpecified = timeout == 0 || timeout == undefined;
     if(noTimeoutSpecified) {
