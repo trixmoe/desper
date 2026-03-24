@@ -54,7 +54,13 @@ function mapURLToElement(content) {
             img.loading = "eager";
             return img;
         default:
-            throw new Error("Unknown content: ", content);
+            const frame = document.createElement("iframe");
+            frame.src = content;
+            frame.className = "content";
+            frame.style.border = "none";
+            frame.style.width = "100%";
+            frame.style.height = "100%";
+            return frame;
     }
 }
 
