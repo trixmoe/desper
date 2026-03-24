@@ -33,8 +33,8 @@ An example `content.json` is provided, but you may want to understand the format
 - **`forcePageReload`** — if `true`, reload the page (and thus `main.js`) on loading
 - **`defaultTimeout`** — fallback slide duration in seconds (default: 30)
 - **`slides`** - list of all slides
-  - **`urls`** — list of images (`.jpg` `.png` `.svg` `.gif`) or videos (`.mp4` `.webm`)
-  - **`timeout`** — seconds before advancing; `0` means wait for all videos to finish or default timeout for pictures
+  - **`urls`** — list of images (`.jpg` `.png` `.svg` `.gif`), videos (`.mp4` `.webm`), or any URL (loaded as a `iframe`)
+  - **`timeout`** — seconds before advancing; `0` means wait for all videos to finish or use default timeout for pictures; `-1` disables advancing entirely (useful for iframes)
 
 ## Multiple screens
 
