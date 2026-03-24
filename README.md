@@ -10,7 +10,9 @@ Each screen loads `index.html` and polls a JSON file regularly for updated conte
 
 Slides cycle by timeout (e.g. a picture for 10 seconds) or, for video slides, when all videos have finished playing (unless the timeout is shorter). A slide can contain multiple media items displayed simultaneously.
 
-## Content file format (example)
+## Content file format
+
+An example `content.json` is provided, but you may want to understand the format and implications of any changes:
 
 ```json
 {
@@ -27,16 +29,23 @@ Slides cycle by timeout (e.g. a picture for 10 seconds) or, for video slides, wh
 }
 ```
 
-- **`lastChange`** — any string; change it to trigger a content update on the screens (ideally Epoch time)
+- **`lastChange`** — any string; change it to trigger a content update on the screens (e.g. current epoch time)
 - **`forcePageReload`** — if `true`, reload the page (and thus `main.js`) on loading
-- **`defaultTimeout`** — fallback slide duration in seconds
-- **`timeout`** — seconds before advancing; `0` means wait for all videos to finish or default timeout for pictures
-- **`urls`** — list of images (`.jpg` `.png` `.svg` `.gif`) or videos (`.mp4` `.webm`)
+- **`defaultTimeout`** — fallback slide duration in seconds (default: 30)
+- **`slides`** - list of all slides
+  - **`urls`** — list of images (`.jpg` `.png` `.svg` `.gif`) or videos (`.mp4` `.webm`)
+  - **`timeout`** — seconds before advancing; `0` means wait for all videos to finish or default timeout for pictures
 
 ## Multiple screens
 
-In the future, different screens will load different content files based on their URL, allowing each screen in a venue to be controlled independently from the same deployment.
+Each screen is identified by the URL anchor. `index.html#main` loads `main.json`, `index.html#side` loads `side.json`, and so on. No anchor falls back to `content.json`.
 
 ## No dependencies
 
-No build step, no framework, no server-side logic required. Drop the files on any static host.
+No build step, no framework, no server-side logic required. Any static host/HTTP server works.
+
+**Must be served over HTTP(s)**: JS `fetch()` does not work over `file://`. A basic server is enough:
+
+```
+python -m http.server
+```
