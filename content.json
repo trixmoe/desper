@@ -1,6 +1,6 @@
 {
     "formatVersion": "0",
-    "lastChange": "1773867005",
+    "lastChange": "1773867009",
     "forcePageReload": true,
     "defaultTimeout": 15,
     "slides": [
@@ -24,6 +24,13 @@
                 "https://storage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg"
             ],
             "timeout": 0
+        },
+        {
+            "urls": [
+                "https://example.org",
+                "https://media.tenor.com/92MplgQwb80AAAPo/cat-meme-wave-emoji.mp4"
+            ],
+            "timeout": 5
         }
     ]
 }
