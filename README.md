@@ -36,6 +36,16 @@ An example `content.json` is provided, but you may want to understand the format
   - **`urls`** — list of images (`.jpg` `.png` `.svg` `.gif`), videos (`.mp4` `.webm`), or any URL (loaded as a `iframe`)
   - **`timeout`** — seconds before advancing; `0` means wait for all videos to finish or use default timeout for pictures; `-1` disables advancing entirely (useful for iframes)
 
+## Generating the content file automatically
+
+`generate.sh` can generate the content JSON from a directory of media files, and is intended for use in a cronjob to keep slides up to date automatically:
+
+```
+*/5 * * * * /path/to/generate.sh /var/www/example /var/www/example.json
+```
+
+Files are grouped into slides by their numeric prefix (e.g. `01-photo.jpg` and `01-logo.png` become one slide). `.txt` files are treated as a URL for an iframe slide. The file is only updated when the slides have actually changed.
+
 ## Multiple screens
 
 Each screen is identified by the URL anchor. `index.html#main` loads `main.json`, `index.html#side` loads `side.json`, and so on. No anchor falls back to `content.json`.
